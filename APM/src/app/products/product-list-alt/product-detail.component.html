@@ -1,10 +1,11 @@
 <div class="card"
-     *ngIf="product">
+     *ngIf="vm$ | async as vm">
   <div class="card-header">
-    {{ pageTitle }}
+    {{ vm.pageTitle }}
   </div>
 
-  <div class="card-body">
+  <div class="card-body"
+       *ngIf="vm.product as product">
     <div class="row">
       <div class="col-md-2">Name:</div>
       <div class="col-md-6">{{ product.productName }}</div>
@@ -30,10 +31,9 @@
       <div class="col-md-6">{{ product.quantityInStock }}</div>
     </div>
 
-    <div class="table-responsive"
-          *ngIf="productSuppliers">
+    <div class="table-responsive">
       <table class="table mb-0"
-             *ngIf="productSuppliers.length; else noSuppliers">
+             *ngIf="vm.productSuppliers.length; else noSuppliers">
         <thead>
           <tr>
             <th>Supplier</th>
@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let supplier of productSuppliers">
+          <tr *ngFor="let supplier of vm.productSuppliers">
             <td>{{ supplier.name }}</td>
             <td>{{ supplier.cost | currency: "USD":"symbol":"1.2-2" }}</td>
             <td>{{ supplier.minQuantity }}</td>
